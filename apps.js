@@ -1,7 +1,7 @@
 
 // Creación del objeto Cita
 
-
+/*
 document.getElementById("formDataAppointment").addEventListener("submit", saveAppointment);
 
 // Creamos la funcion que almacenará las citas creadas en la lista de citas pendientes
@@ -20,8 +20,11 @@ function saveAppointment(e) {
    let email = document.getElementById("email").value;
    let message = document.getElementById("message").value;
 
+
+    // esto no esta bien
    let id = new Date(document.lastModified);
    document.getElementById("saveData").innerHTML = JSON.stringify(id);
+
 
     const appointmentPacient = {
         appointment: appointment,
@@ -34,7 +37,6 @@ function saveAppointment(e) {
         birthday: birthday,
         email: email,
         message: message,
-        id: id,
     };
 
     if (localStorage.getItem("appointmentPacientList") === null ) {
@@ -46,6 +48,8 @@ function saveAppointment(e) {
         appointmentPacientList.push(appointmentPacient);
         localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
     }
+
+
 
 
     //Función de bootstrap para deshabilitar el envio del formulario si algún campo no es correcto
@@ -66,8 +70,6 @@ function saveAppointment(e) {
         }, false)
       })
     })()
-
-
 
 }
 
@@ -160,7 +162,7 @@ function getAppointment() {
 getAppointment();
 
 
-/*
+
 class Cita {
     constructor(appointment, appointmentHour, name, surname1, surname2, dni, phone, birthday, email, message) {
         this.appointment = appointment;
