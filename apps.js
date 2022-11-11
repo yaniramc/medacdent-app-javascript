@@ -7,6 +7,8 @@ document.getElementById("formDataAppointment").addEventListener("submit", saveAp
 // Creamos la funcion que almacenará las citas creadas en la lista de citas pendientes
 function saveAppointment(e) {
 
+    e.preventDefault();
+
    let appointment = document.getElementById("appointment").value;
    let appointmentHour = document.getElementById("appointmentHour").value;
    let name = document.getElementById("name").value;
@@ -17,6 +19,9 @@ function saveAppointment(e) {
    let birthday = document.getElementById("birthday").value;
    let email = document.getElementById("email").value;
    let message = document.getElementById("message").value;
+
+   let id = new Date(document.lastModified);
+   document.getElementById("saveData").innerHTML = JSON.stringify(id);
 
     const appointmentPacient = {
         appointment: appointment,   //En versiones actuales ya no se escribe de esta manera, sino solamente la palabra appointment
@@ -29,10 +34,11 @@ function saveAppointment(e) {
         birthday: birthday,
         email: email,
         message: message,
+        id: id,
     };
 
     if (localStorage.getItem("appointmentPacientList") === null ) {
-        let appointmentPacientList = [];
+        let appointmentPacientList = [].sort();
         appointmentPacientList.push(appointmentPacient);
         localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
     } else {
@@ -40,55 +46,84 @@ function saveAppointment(e) {
         appointmentPacientList.push(appointmentPacient);
         localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
     }
-
-    e.preventDefault();
 }
+
+
 
 // Funcion para obtener las citas y mostrarlas en la tabla
 function getAppointment() {
-    let appointmenPacienttList = JSON.parse(localStorage.getItem("appointmentPacientList"));
+    let appointmentPacientList = JSON.parse(localStorage.getItem("appointmentPacientList"));
     let appointmentView = document.getElementById("PacientData");
 
-    appointmentView.innerHTML = "";
+    for(let i = 0; i < appointmentPacientList.length; i++) {
 
-    for(let i = 0; i < appointmenPacienttList.length; i++) {
+        let appointment = appointmentPacientList[i].appointment;
+        let appointmentHour = appointmentPacientList[i].appointmentHour;
+        let name = appointmentPacientList[i].name;
+        let surname1 = appointmentPacientList[i].surname1;
+        let surname2 = appointmentPacientList[i].surname2;
+        let dni = appointmentPacientList[i].dni;
+        let phone = appointmentPacientList[i].phone;
+        let birthday = appointmentPacientList[i].birthday;
+        let email = appointmentPacientList[i].email;
+        let message = appointmentPacientList[i].message;
+        let id = appointmentPacientList[i].id;
 
-        let appointment = appointmenPacienttList[i].appointment;
-        let appointmentHour = appointmenPacienttList[i].appointmentHour;
-        let name = appointmenPacienttList[i].name;
-        let surname1 = appointmenPacienttList[i].surname1;
-        let surname2 = appointmenPacienttList[i].surname2;
-        let dni = appointmenPacienttList[i].dni;
-        let phone = appointmenPacienttList[i].phone;
-        let birthday = appointmenPacienttList[i].birthday;
-        let email = appointmenPacienttList[i].email;
-        let message = appointmenPacienttList[i].message;
+        let key = localStorage.key("appointmentPacientList"); //Esto no funciona todavia, estoy probando cosas.
 
-        for (let j = 0; j < appointmenPacienttList.length; j++) {
+        let row = document.createElement("tr");
 
-            let cell = document.createElement("td");
-            cell.innerText = `${name}`;
-            document.getElementById("PacientData").appendChild(cell);
+        let col = document.createElement("td");
 
-        }
+        /*
+        col.innerText = `${id}`;
+        row.appendChild(col).style.visibility = "hidden";
+        document.getElementsByTagName("appointmentPacientList");
+        */
+
+        col = document.createElement("td");
+        col.innerText = `${appointment}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${appointmentHour}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${name}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${surname1}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${surname2}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${dni}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${phone}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${birthday}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${email}`;
+        row.appendChild(col);
+
+        col = document.createElement("td");
+        col.innerText = `${message}`;
+        row.appendChild(col);
+
+        appointmentView.appendChild(row);
 
     }
-
-
-
-
-
-
-/*
-    let row = document.createElement("td");
-    row.innerText = `${name}`;
-    document.getElementById("PacientData").appendChild(row);
-*/
-
-
-
-        /* appointmentView.innerHTML += `<tr><td>${name}</td></tr> +
-        <tr><td>${surname1}</td></tr>` */
 }
 
 getAppointment();

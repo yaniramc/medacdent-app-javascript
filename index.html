@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="col-md-5">
-                    <button type="submit" class="btn btn-primary" onclick="saveAppointment()">Agregar cita</button>
+                    <button type="submit" class="btn btn-primary" id="saveData" onclick="saveAppointment()">Agregar cita</button>
                 </div>
             </form>
         </div>
@@ -96,25 +96,24 @@
                 <h3>Lista de citas pendientes</h3>
 
                 <div class="table-responsive-sm">
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th scope="col" id="appointmentList">Cita</th>
-                            <th scope="col" id="appointmentHourList">Hora</th>
-                            <th scope="col" id="nameList">Nombre</th>
-                            <th scope="col" id="surname1List">1º Apellido</th>
-                            <th scope="col" id="surname2List">2º Apellido</th>
-                            <th scope="col" id="dniList">DNI</th>
-                            <th scope="col" id="phoneList">Teléfono</th>
-                            <th scope="col" id="birthdayList">Nacimiento</th>
-                            <th scope="col" id="emailList">Email</th>
-                            <th scope="col" id="messageList">Observaciones</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Cita</th>
+                            <th scope="col">Hora</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">1º Apellido</th>
+                            <th scope="col">2º Apellido</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Nacimiento</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Observaciones</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td id="PacientData"></td>
-                        </tr>
+                        <tbody id="PacientData">
+
                         </tbody>
                     </table>
                 </div>
