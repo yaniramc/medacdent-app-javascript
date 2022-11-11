@@ -55,7 +55,7 @@ function getAppointment() {
     let appointmentPacientList = JSON.parse(localStorage.getItem("appointmentPacientList"));
     let appointmentView = document.getElementById("PacientData");
 
-    for(let i = 0; i < appointmentPacientList.length; i++) {
+    for (let i = 0; i < appointmentPacientList.length; i++) {
 
         let appointment = appointmentPacientList[i].appointment;
         let appointmentHour = appointmentPacientList[i].appointmentHour;
@@ -69,7 +69,7 @@ function getAppointment() {
         let message = appointmentPacientList[i].message;
         let id = appointmentPacientList[i].id;
 
-        let key = localStorage.key("appointmentPacientList"); //Esto no funciona todavia, estoy probando cosas.
+        let key = appointmentPacientList[i].value; // Quiero obtener la clave que se ve en el localStorage cuando se crea dentro de la lista los diferentes diccionarios.
 
         let row = document.createElement("tr");
 
@@ -80,6 +80,10 @@ function getAppointment() {
         row.appendChild(col).style.visibility = "hidden";
         document.getElementsByTagName("appointmentPacientList");
         */
+
+        col = document.createElement("td");
+        col.innerText = `${key}`;
+        row.appendChild(col);
 
         col = document.createElement("td");
         col.innerText = `${appointment}`;
