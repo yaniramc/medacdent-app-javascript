@@ -24,7 +24,7 @@ function saveAppointment(e) {
    document.getElementById("saveData").innerHTML = JSON.stringify(id);
 
     const appointmentPacient = {
-        appointment: appointment,   //En versiones actuales ya no se escribe de esta manera, sino solamente la palabra appointment
+        appointment: appointment,
         appointmentHour: appointmentHour,
         name: name,
         surname1: surname1,
@@ -46,7 +46,34 @@ function saveAppointment(e) {
         appointmentPacientList.push(appointmentPacient);
         localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
     }
+
+
+    //Función de bootstrap para deshabilitar el envio del formulario si algún campo no es correcto
+    (() => {
+      'use strict'
+
+      // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
+      const forms = document.querySelectorAll('.needs-validation')
+
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+
+
+
 }
+
+
+
+
 
 
 
@@ -75,11 +102,11 @@ function getAppointment() {
 
         let col = document.createElement("td");
 
-        /*
+
         col.innerText = `${id}`;
-        row.appendChild(col).style.visibility = "hidden";
+        row.appendChild(col).style.display = "none";
         document.getElementsByTagName("appointmentPacientList");
-        */
+
 
         col = document.createElement("td");
         col.innerText = `${key}`;
