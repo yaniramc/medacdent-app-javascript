@@ -1,30 +1,26 @@
-
-// Creación del objeto Cita
-
-/*
 document.getElementById("formDataAppointment").addEventListener("submit", saveAppointment);
 
-// Creamos la funcion que almacenará las citas creadas en la lista de citas pendientes
+// CREAMOS LA FUNCION QUE ALMACENARÁ LAS CITAS CREADAS EN LA LISTA DE CITAS PENDIENTES
 function saveAppointment(e) {
 
     e.preventDefault();
 
-   let appointment = document.getElementById("appointment").value;
-   let appointmentHour = document.getElementById("appointmentHour").value;
-   let name = document.getElementById("name").value;
-   let surname1 = document.getElementById("surname1").value;
-   let surname2 = document.getElementById("surname2").value;
-   let dni = document.getElementById("dni").value;
-   let phone = document.getElementById("phone").value;
-   let birthday = document.getElementById("birthday").value;
-   let email = document.getElementById("email").value;
-   let message = document.getElementById("message").value;
+    let appointment = document.getElementById("appointment").value;
+    let appointmentHour = document.getElementById("appointmentHour").value;
+    let name = document.getElementById("name").value;
+    let surname1 = document.getElementById("surname1").value;
+    let surname2 = document.getElementById("surname2").value;
+    let dni = document.getElementById("dni").value;
+    let phone = document.getElementById("phone").value;
+    let birthday = document.getElementById("birthday").value;
+    let email = document.getElementById("email").value;
+    let message = document.getElementById("message").value;
 
-
-    // esto no esta bien
+    /*
+   //ESTO NO ESTA BIEN
    let id = new Date(document.lastModified);
    document.getElementById("saveData").innerHTML = JSON.stringify(id);
-
+    */
 
     const appointmentPacient = {
         appointment: appointment,
@@ -39,47 +35,56 @@ function saveAppointment(e) {
         message: message,
     };
 
-    if (localStorage.getItem("appointmentPacientList") === null ) {
-        let appointmentPacientList = [].sort();
-        appointmentPacientList.push(appointmentPacient);
-        localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
-    } else {
-        let appointmentPacientList = JSON.parse(localStorage.getItem("appointmentPacientList"));
-        appointmentPacientList.push(appointmentPacient);
-        localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
+
+    let isValid = true;
+    let elements = document.getElementById("formDataAppointment").getElementsByTagName("input");
+
+    for (let i = 0; i < elements.length; i++) {
+        if (elements[i].value.length < 1) {
+            isValid = false;
+        }
     }
 
+    if (isValid) {
+        document.getElementById("formDataAppointment").submit();
 
-
-
-    //Función de bootstrap para deshabilitar el envio del formulario si algún campo no es correcto
-    (() => {
-      'use strict'
-
-      // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
-      const forms = document.querySelectorAll('.needs-validation')
-
-      Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
-
-          form.classList.add('was-validated')
-        }, false)
-      })
-    })()
+        if (localStorage.getItem("appointmentPacientList") === null) {
+        let appointmentPacientList = [];
+        appointmentPacientList.push(appointmentPacient);
+        localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
+        } else {
+            let appointmentPacientList = JSON.parse(localStorage.getItem("appointmentPacientList"));
+            appointmentPacientList.push(appointmentPacient);
+            localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
+        }
+    } else {
+        alert("Rellena todos los campos");
+    }
 
 }
 
 
+//FUNCIÓN DE BOOTSTRAP PARA DESHABILITAR EL ENVIO DEL FORMULARIO SI ALGÚN CAMPO NO ES CORRECTO
+(() => {
+    'use strict'
+
+    // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
+    const forms = document.querySelectorAll('.needs-validation')
+
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
 
 
-
-
-
-// Funcion para obtener las citas y mostrarlas en la tabla
+// FUNCION PARA OBTENER LAS CITAS Y MOSTRARLAS EN LA TABLA QUE CREAMOS CON JAVASCRIPT
 function getAppointment() {
     let appointmentPacientList = JSON.parse(localStorage.getItem("appointmentPacientList"));
     let appointmentView = document.getElementById("PacientData");
@@ -104,11 +109,11 @@ function getAppointment() {
 
         let col = document.createElement("td");
 
-
+        /*
         col.innerText = `${id}`;
         row.appendChild(col).style.display = "none";
         document.getElementsByTagName("appointmentPacientList");
-
+        */
 
         col = document.createElement("td");
         col.innerText = `${key}`;
@@ -160,26 +165,6 @@ function getAppointment() {
 }
 
 getAppointment();
-
-
-
-class Cita {
-    constructor(appointment, appointmentHour, name, surname1, surname2, dni, phone, birthday, email, message) {
-        this.appointment = appointment;
-        this.appointmentHour = appointmentHour;
-        this.name = name;
-        this.surname1 = surname1;
-        this.surname2 = surname2;
-        this.dni = dni;
-        this.phone = phone;
-        this.birthday = birthday;
-        this.email = email;
-        this.message = message;
-    }
-}
-*/
-
-
 
 
 
