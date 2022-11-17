@@ -1,6 +1,6 @@
 document.getElementById("formDataAppointment").addEventListener("submit", saveAppointment);
 
-// CREAMOS LA FUNCION QUE ALMACENARÁ LAS CITAS CREADAS EN LA LISTA DE CITAS PENDIENTES
+//Creamos la función que almacenará las citas creadas en la tabla de citas pendientes
 function saveAppointment(e) {
 
     e.preventDefault();
@@ -16,11 +16,6 @@ function saveAppointment(e) {
     let email = document.getElementById("email").value;
     let message = document.getElementById("message").value;
 
-    /*
-   //ESTO NO ESTA BIEN
-   let id = new Date(document.lastModified);
-   document.getElementById("saveData").innerHTML = JSON.stringify(id);
-    */
 
     const appointmentPacient = {
         appointment: appointment,
@@ -49,9 +44,9 @@ function saveAppointment(e) {
         document.getElementById("formDataAppointment").submit();
 
         if (localStorage.getItem("appointmentPacientList") === null) {
-        let appointmentPacientList = [];
-        appointmentPacientList.push(appointmentPacient);
-        localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
+            let appointmentPacientList = [];
+            appointmentPacientList.push(appointmentPacient);
+            localStorage.setItem("appointmentPacientList", JSON.stringify(appointmentPacientList));
         } else {
             let appointmentPacientList = JSON.parse(localStorage.getItem("appointmentPacientList"));
             appointmentPacientList.push(appointmentPacient);
@@ -64,7 +59,7 @@ function saveAppointment(e) {
 }
 
 
-//FUNCIÓN DE BOOTSTRAP PARA DESHABILITAR EL ENVIO DEL FORMULARIO SI ALGÚN CAMPO NO ES CORRECTO
+//Función de bootstrap para deshabilitar el envío del formulario si algún campo no es correcto
 (() => {
     'use strict'
 
@@ -84,12 +79,34 @@ function saveAppointment(e) {
 })()
 
 
-// FUNCION PARA OBTENER LAS CITAS Y MOSTRARLAS EN LA TABLA QUE CREAMOS CON JAVASCRIPT
+// Función para obtener las citas y mostrarlas en la tabla creada con javascript
 function getAppointment() {
     let appointmentPacientList = JSON.parse(localStorage.getItem("appointmentPacientList"));
     let appointmentView = document.getElementById("PacientData");
 
+    //Si la tabla no tiene citas, mostrará una fila con "dato vacío"
+    if (appointmentPacientList === null) {
+        let noData = "Dato vacío";
+        let rowempty = document.createElement("tr");
+
+        let colempty = document.createElement("td");
+        colempty.innerText = noData;
+        appointmentView.appendChild(rowempty);
+
+        colempty = document.createElement("td");
+        colempty.setAttribute("colspan", "12")
+        colempty.setAttribute("class", "text-center")
+        colempty.innerText = noData;
+        rowempty.appendChild(colempty);
+
+        appointmentView.appendChild(rowempty);
+    }
+
+
     for (let i = 0; i < appointmentPacientList.length; i++) {
+
+        //Creamos una variable con el valor de la fecha y hora actual
+        let id = new Date(document.lastModified);
 
         let appointment = appointmentPacientList[i].appointment;
         let appointmentHour = appointmentPacientList[i].appointmentHour;
@@ -101,22 +118,25 @@ function getAppointment() {
         let birthday = appointmentPacientList[i].birthday;
         let email = appointmentPacientList[i].email;
         let message = appointmentPacientList[i].message;
-        let id = appointmentPacientList[i].id;
 
-        let key = appointmentPacientList[i].value; // Quiero obtener la clave que se ve en el localStorage cuando se crea dentro de la lista los diferentes diccionarios.
-
+        //Creamos los elementos fila y columna en la tabla
         let row = document.createElement("tr");
 
         let col = document.createElement("td");
 
-        /*
-        col.innerText = `${id}`;
+
+        /* Añadimos la fecha de creación que solo será visible para el desarrollador pero no para el usuario.
+         Y en su lugar, se pondrá un valor numérico empezando desde el 1. */
+        col.innerText = `${id.toLocaleString()}`;
         row.appendChild(col).style.display = "none";
         document.getElementsByTagName("appointmentPacientList");
-        */
 
+
+        //Se empieza a agregar los valores de cada columna, incluyendo el ID con el valor numérico.
+        let table = document.getElementById('table');
+        let rowLength = table.rows.length;
         col = document.createElement("td");
-        col.innerText = `${key}`;
+        col.innerText = `${rowLength}`;
         row.appendChild(col);
 
         col = document.createElement("td");
@@ -159,30 +179,43 @@ function getAppointment() {
         col.innerText = `${message}`;
         row.appendChild(col);
 
+
+        //Creando los botones editar y eliminar
+        col = document.createElement("td");
+        let editButton = document.createElement("button");
+        let iconImgEdit = document.createElement("img");
+        iconImgEdit.setAttribute("src", "media/img/pencil.svg");
+        iconImgEdit.setAttribute("width", "18px");
+        editButton.classList.add("btn", "btn-success");
+        row.appendChild(col);
+        col.appendChild(editButton);
+        editButton.appendChild(iconImgEdit);
+
+        col = document.createElement("td");
+        let iconImgRemove = document.createElement("img");
+        iconImgRemove.setAttribute("src", "media/img/trash.svg");
+        iconImgRemove.setAttribute("width", "18px");
+        let removeButton = document.createElement("button");
+        removeButton.classList.add("btn", "btn-danger", "mx-1");
+        removeButton.setAttribute("id", "remove");
+        removeButton.setAttribute("type", "submit");
+        row.appendChild(col);
+        col.appendChild(removeButton);
+        removeButton.appendChild(iconImgRemove);
+
+
+        //Creando funcionalidad del botón remove
+        removeButton.onclick = buttonAppointment;
+
+        function buttonAppointment() {
+            localStorage.removeItem(appointmentPacientList);
+        }
+
+
         appointmentView.appendChild(row);
 
     }
 }
 
 getAppointment();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
