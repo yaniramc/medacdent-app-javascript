@@ -204,14 +204,6 @@ function getAppointment() {
         removeButton.appendChild(iconImgRemove);
 
 
-        //Creando funcionalidad del botón remove
-        removeButton.onclick = buttonAppointment;
-
-        function buttonAppointment() {
-            localStorage.removeItem(appointmentPacientList);
-        }
-
-
         appointmentView.appendChild(row);
 
     }
